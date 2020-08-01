@@ -1,49 +1,12 @@
-from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 
 
-class Application():
-    def __init__(self):
-        self.driver = webdriver.Firefox()
-        self.driver.implicitly_wait(30)
-
-    def destroy(self):
-        self.driver.quit()
-
-    def login(self, username, password):
-        driver = self.driver
-        self.open_homepage(driver)
-        driver.find_element_by_name("user").send_keys(username)
-        driver.find_element_by_name("pass").send_keys(password)
-        driver.find_element_by_xpath("//input[@value='Login']").click()
-
-    def open_homepage(self, driver):
-        driver.get("https://localhost/")
-
-    def logout(self):
-        driver = self.driver
-        driver.find_element_by_link_text("Logout").click()
-
-    def goto_groups_page(self):
-        driver = self.driver
-        driver.find_element_by_link_text("group page").click()
-
-    def add_new_group(self, group):
-        driver = self.driver
-        self.open_groups_page()
-        driver.find_element_by_name("new").click()
-        driver.find_element_by_name("group_name").send_keys(group.name)
-        driver.find_element_by_name("group_header").send_keys(group.header)
-        driver.find_element_by_name("group_footer").send_keys(group.footer)
-        driver.find_element_by_name("submit").click()
-        self.goto_groups_page()
-
-    def open_groups_page(self):
-        driver = self.driver
-        driver.find_element_by_link_text("groups").click()
+class ContactsHelper:
+    def __init__(self, app):
+        self.app = app
 
     def add_new_contact(self, contact):
-        driver = self.driver
+        driver = self.app.driver
         driver.find_element_by_link_text("add new").click()
         driver.find_element_by_name("firstname").send_keys(contact.firstname)
         driver.find_element_by_name("middlename").send_keys(contact.middlename)
@@ -73,5 +36,5 @@ class Application():
         self.goto_homepage()
 
     def goto_homepage(self):
-        driver = self.driver
+        driver = self.app.driver
         driver.find_element_by_link_text("home").click()
